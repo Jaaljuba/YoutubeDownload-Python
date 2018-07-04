@@ -1,0 +1,4 @@
+Ejecutar este comando para instalar certificado
+
+* pip install certifi
+* /Applications/Python\ 3.6/Install\ Certificates.command
