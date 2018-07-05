@@ -1,30 +1,27 @@
 import pafy
 import time
 
+from color import *
+
+
 def clearScreen():
     print(25 * "\n")
 
 
-def getVideos():
-    urlVideo = input("Ingresa el url del video de Youtube: ")
-    video = pafy.new(urlVideo)
+def getVideos(pUrl):
+    video = pafy.new(pUrl)
     bestVideo = video.getbest()
 
-    # print("Titulo del Video\n{}\nResolución\n{}\nTamaño del archivo\n{}".format(), video.title)
-    print("\n\nDatos del Video:\n{}\n{} {}\n{:0,} bytes".format(video.title, bestVideo.resolution, bestVideo.extension, bestVideo.get_filesize()))
-    # print("Resolución\n", bestVideo.resolution, " Extension: ", bestVideo.extension)
-    # print("Tamaño del archivo: ", bestVideo.get_filesize())
-    print("")
+    print(colorize(40, 1, 37, "\n\nDatos del Video:\n{}\n{} {}\n{:0,} bytes.\n\n".format(video.title, bestVideo.resolution, bestVideo.extension, bestVideo.get_filesize())))
 
-    ask = input("Desea descargar el video? (y/n): ")
-    if (ask == "y"):
+    ask = input("Desea descargar el video? (s/n): ")
+    if (ask == "s"):
         # bestVideo = video.getbest(preftype="mp4")
         bestVideo.download()
 
 
-def getPlaylists():
-    urlPlaylist = input("Ingresa la url de la Playlist: ")
-    playlist = pafy.get_playlist(urlPlaylist)
+def getPlaylists(pUrl):
+    playlist = pafy.get_playlist(pUrl)
 
     print("Titulo de la Playlist: ", playlist["title"])
     print("Playlist con ", len(playlist["items"]), " videos")
@@ -54,18 +51,15 @@ def getPlaylists():
 ciclo = True
 while ciclo:
     clearScreen()
-    askProcess = input("Desea procesar una URL (y/n): ")
-    if (askProcess == "y"):
-        askTypeUrl = input("Video o Playlist? (v/p)")
-        clearScreen()
-        if (askTypeUrl == "v"):
-            getVideos()
-        elif (askTypeUrl == "p"):
-            getPlaylists()
-        else:
-            print("Opción erronea!!!")
-            time.sleep(5)
+    urlVideo = input("Ingresa el url del video de Youtube: ")
+    if urlVideo == "":
+        askProcess = input("La url esta vacia, quiere abandonar el aplicativo? (s/n) ")
+        if askProcess == "s":
+            clearScreen()
+            print(colorize(40, 0, 37, "0k, chao pues...!"))
+            ciclo = False
     else:
-        clearScreen()
-        print("0k, chao...!")
-        ciclo = False
+        if "/playlist?list=" in urlVideo:
+            getPlaylists(urlVideo)
+        else:
+            getVideos(urlVideo)
