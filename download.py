@@ -31,9 +31,9 @@ def getPlaylists(pUrl):
     contador = 1
     if askAction == "1":
         for i in playlist["items"]:
-            bestVideo = i["pafy"].getbest()
-            print("Titulo del Video # ", contador, ": ", i["pafy"].title)
-            print("Resolución: ", bestVideo.resolution, " Extension: ", bestVideo.extension)
+            # bestVideo = i["pafy"].getbest()
+            print("Video ", contador, ": \n", i["pafy"].title)
+            # print("Resolución: ", bestVideo.resolution, " Extension: ", bestVideo.extension)
             contador += 1
 
         time.sleep(5)
